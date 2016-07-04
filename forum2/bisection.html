@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bisection</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/gayaCramer.css">
+    <link rel="stylesheet" href="../jquery.hemiIntro.css">
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/math.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../jquery.hemiIntro.js"></script>
+    <style>
+        .input1 {
+            border-radius: none;
+        }
+
+        .btn1 {
+            border-radius: 0;
+            background: #333;
+            padding: 10px 20px;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #ccc;
+            border-color: #ccc;
+            color: #333;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td.non {
+            border: 0;
+        }
+
+        .abu1 {
+            background: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Step1-->
+    <div id="atas">
+        <span class="logo">Tugas Pak Ronsen</span>
+        <div class="kananBack">
+            <a href="../index.html"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+        </div>
+
+    </div>
+    <div class="container">
+        <section>
+            <div class="page-header">
+                <h2>Metode <small>bisection</small></h2>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="alert alert-danger">
+                                <strong>Format Tidak Sesuai</strong> Masukkan format seperti : 2x^3 + 6x + 2 atau nilai a dan b tidak boleh kosong
+                            </div>
+                            <label for="awal" class="col-xs-4 control-label">Masukkan Fungsi</label>
+                            <div class="col-xs-6">
+                                <input type="text" class="big" id="fungsi" placeholder="Masukkan Fungsi" required>
+                                <p class="help-block">Masukkan format seperti : 2x^3 + 6x + 2</p>
+                            </div>
+                            <div class="col-xs-4"></div>
+                        </div>
+                        <div class="batas">
+                            <div class="form-group">
+                                <label for="awal" class="col-xs-4 control-label">Nilai a</label>
+                                <div class="col-xs-6">
+                                    <input type="text" class="big" id="aBatas" placeholder="Masukkan Nilai a" required>
+
+                                </div>
+                                <div class="col-xs-4"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="awal" class="col-xs-4 control-label">Nilai b</label>
+                                <div class="col-xs-6">
+                                    <input type="text" class="big" id="bBatas" placeholder="Masukkan Nilai b" required>
+
+                                </div>
+                                <div class="col-xs-4"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <input id="kiriM" class="btn btn1 btn-default" type="submit" value="Kirim">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+    <div id="hasil" class="container"></div>
+    <!--End Step1-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Selamat Datang</h4>
+                </div>
+                <div class="modal-body">
+                    Silahkan klik Start untuk memulai tur singkat penggunaan program
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-8">
+                        <p>Copyright &copy; 2016 designed by : Bona Tua</p>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Start</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+
+
+
+            $(".alert").hide();
+
+            $("#kiriM").click(function () {
+
+
+                var huruf = [];
+                var pangkat = [];
+                var Stats = false;
+                //                var fungsi = '4xy^2 + 2x^2 + 2';
+                var fungsi = $("#fungsi").val();
+                var valueVar = [];
+                var valueFloor = [];
+
+                function cek() {
+                    for (var i = 0; i < fungsi.length; i++) {
+                        if (fungsi[i].charCodeAt(0) > 96 && fungsi[i].charCodeAt(0) < 128)
+                            huruf.push(fungsi[i]);
+                        else if (fungsi[i] == "^")
+                            pangkat.push(fungsi[i]);
+                    }
+                    for (var i = 0; i < huruf.length; i++) {
+                        for (var j = 0; j < huruf.length; j++) {
+                            if (huruf[i] == huruf[j])
+                                Stats = true;
+                            else {
+                                Stats = false;
+                                break;
+                            }
+                        }
+                        if (Stats == false)
+                            break;
+                    }
+                    if (pangkat.length == 0)
+                        Stats = false;
+                    //        if(Stats==false)
+                    //            console.log("Masukan format yang sesuai seperti : 4x^2 + 2x^2 + 2 ");
+                    return Stats;
+                }
+
+                if (cek() && $("#aBatas").val().trim() != '' && $("#bBatas").val().trim() != '') {
+
+                    $(".alert").hide();
+                    var x = huruf[0];
+                    var operand = [];
+                    if (fungsi[0] != "+" || fungsi[0] != "-")
+                        operand.push("+");
+                    var valueVar = [];
+                    var valueFloor = [];
+                    var re = /[+--]/gi;
+
+                    var fungsi = fungsi.replace(/ /g, '');
+                    var string = fungsi.split(re);
+                    var Text = "";
+                    var validation = false;
+                    for (var i = 0; i < string.length; i++) {
+
+                        for (var j = 0; j < string[i].length; j++) {
+                            if (string[i][j].charCodeAt(0) > 47 && string[i][j].charCodeAt(0) < 58) {
+                                Text += string[i][j];
+                                validation = true;
+                            } else if (string[i][j] == x) {
+                                if (Text == "")
+                                    Text = "1";
+                                valueVar.push(Text);
+                                Text = "";
+                                validation = false;
+                                break;
+                            }
+                        }
+                        if (validation)
+                            valueVar.push(Text);
+                        for (var j = 0; j < string[i].length; j++) {
+                            Text = "";
+                            if (string[i][j] == pangkat[0]) {
+                                for (var k = j + 1; k < string[i].length; k++) {
+                                    Text += string[i][k];
+                                }
+                                valueFloor.push(Text);
+                            }
+                        }
+                        if (string[i][string[i].length - 1] == x) {
+                            valueFloor.push("1");
+                        }
+                    }
+                    if (valueVar.length > valueFloor.length)
+                        valueFloor.push("0");
+                    for (var i = 0; i < fungsi.length; i++) {
+                        if (fungsi[i] == "+" || fungsi[i] == "-")
+                            operand.push(fungsi[i]);
+                    }
+
+                    function addSub(x) {
+                        var i = 0;
+                        var result = 0;
+                        while (i < valueVar.length) {
+                            var count = parseFloat(valueVar[i]) * (Math.pow(parseFloat(x), parseInt(valueFloor[i])));
+                            if (operand[i] == "+")
+                                result += parseFloat(count);
+                            else if (operand[i] == "-")
+                                result -= parseFloat(count);
+                            i += 1;
+                        }
+                        return result;
+                    }
+                    var A = parseFloat($("#aBatas").val().trim());
+                    var B = parseFloat($("#bBatas").val().trim());
+                    var C = 0;
+                    var Diff = 1;
+                    var iteration = 0;
+                    var tabelS = "<div class='table-responsive'><table class='table table table-bordered table-striped text-center'>";
+                    tabelS += "<thead><tr><th >Iterasi</th><th>a(Bawah)</th><th>c(Tengah)</th><th>b(Atas)</th><th>f(a)</th><th>f(c)</th><th>f(b)</th><th>Diff</th></tr></thead>";
+                    var FuncA = 0
+                        , FuncB = 0
+                        , FuncC = 0;
+                    //                    console.log(("I\ta(Bawah)\tc(Tengah)\tB(Atas)\t\tf(a)\t\tf(b)\t\tf(c)\t\t(diff)"));
+                    while (Diff > 0.0001) {
+                        C = parseFloat((A + B) / 2);
+                        FuncA = addSub(A);
+                        FuncB = addSub(B);
+                        FuncC = addSub(C);
+                        Diff = B - C;
+                        //                        console.log(iteration, "\t", A.toFixed(10), "\t", C.toFixed(10), "\t", B.toFixed(10), "\t", FuncA.toFixed(10), "\t", FuncB.toFixed(10), "\t", FuncC.toFixed(10), Diff.toFixed(10));
+                        tabelS += "<tr><td>" + iteration + "</td><td>" + A.toFixed(10) + "</td><td>" + C.toFixed(10) + "</td><td>" + B.toFixed(10) + "</td><td>" + FuncA.toFixed(10) + "</td><td>" + FuncC.toFixed(10) + "</td><td>" + FuncB.toFixed(10) + "</td><td>" + Diff.toFixed(10) + "</td></tr>";
+                        if (FuncA * FuncC == 0)
+                            break;
+                        else if (FuncA * FuncC < 0) {
+                            //                            console.log("Range = [a,c] Alasan f(a) dan f(c) beda tanda");
+                            B = C;
+                        } else {
+                            //                            console.log("Range = [a,c] Alasan f(a) dan f(c) beda tanda")
+                            A = C
+                        }
+                        iteration += 1;
+                    }
+                    tabelS += "<tr><td colspan='3' class='abu1'>Hasil akhir dari iterasi diatas</td><td colspan='5'>" + C + "</td></tr>";
+                    $("#hasil").html(tabelS);
+                } else {
+                    $(".alert").show();
+
+                }
+
+            });
+
+            var intro = $.hemiIntro({
+                debug: false
+                , steps: [
+                    {
+                        selector: ".kananBack"
+                        , placement: "bottom"
+                        , content: "Untuk kembali ke halaman home"
+                        , offsetTop: 100
+                            }
+
+
+
+
+
+                    , {
+                        selector: "#fungsi"
+                        , placement: "bottom"
+                        , content: "Masukkan fungsi contoh format : 2x^3 + 6x + 2 "
+                        , offsetTop: 100
+                            }
+
+
+                    , {
+                        selector: "#aBatas"
+                        , placement: "bottom"
+                        , content: "Masukkan nilai a "
+                        , offsetTop: 100
+                            }
+
+
+                    , {
+                        selector: "#bBatas"
+                        , placement: "bottom"
+                        , content: "Masukkan nilai b "
+                        , offsetTop: 100
+                            }
+
+
+                    , {
+                        selector: "#kiriM"
+                        , placement: "right"
+                        , content: "Klik kirim untuk melihat hasil"
+                            }
+
+
+
+
+
+
+                    , ]
+                , startFromStep: 0
+                , backdrop: {
+                    element: $("<div>")
+                    , class: "hemi-intro-backdrop"
+                }
+
+
+
+
+
+
+                , popover: {
+                    template: '<div class="popover hemi-intro-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+                }
+                , buttons: {
+                    holder: {
+                        element: $("<div>")
+                        , class: "hemi-intro-buttons-holder"
+                    }
+                    , next: {
+                        element: $("<button>Next</button>")
+                        , class: "btn btn-primary"
+                    }
+                    , finish: {
+                        element: $("<button>Finish</button>")
+                        , class: "btn btn-primary"
+                    }
+                }
+                , welcomeDialog: {
+                    show: true
+                    , selector: "#myModal"
+                }
+
+
+
+
+
+
+
+                , scroll: {
+                    anmationSpeed: 500
+                }
+                , currentStep: {
+                    selectedClass: "hemi-intro-selected"
+                }
+
+            });
+            intro.start();
+
+        });
+    </script>
+</body>
+
+</html>

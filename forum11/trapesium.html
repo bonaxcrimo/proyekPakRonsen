@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Metode Trapesium</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../css/gayaCramer.css">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/math.min.js"></script>
+    <style>
+        .input1 {
+            border-radius: none;
+        }
+
+        .big {
+            width: 100%;
+        }
+
+        .btn {
+            border-radius: 0;
+            background: #333;
+            padding: 10px 20px;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #ccc;
+            border-color: #ccc;
+            color: #333;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td.non {
+            border: 0;
+        }
+
+        .abu1 {
+            background: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Step1-->
+    <div id="atas">
+        <span class="logo">Tugas Pak Ronsen</span>
+        <div class="kananBack">
+            <a href="../index.html"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+        </div>
+
+    </div>
+    <div class="container">
+        <section>
+            <div class="page-header">
+                <h2>Integral <small>Metode Trapesium</small></h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Nilai Batas Awal</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="t1" placeholder="Masukkan Nilai Batas Awal" required>
+
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Nilai Batas Akhir</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="t2" placeholder="Masukkan Nilai Batas Akhir" required>
+
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-10">
+                                <blockquote>
+
+                                    <p>
+                                        Fungsi :
+                                        <h3>p ln( q / ( q - rt)) - st</h3>
+                                    </p>
+
+                                </blockquote>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Nilai P</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="p" placeholder="Masukkan Nilai P" required>
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Nilai Q</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="q" placeholder="Masukkan Nilai Q" required>
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Nilai R</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="r" placeholder="Masukkan Nilai R" required>
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Nilai S</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="s" placeholder="Masukkan Nilai S" required>
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Banyak Segmen</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="segmen" placeholder="Masukkan n Segmen" required>
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <input id="kiriM" class="btn btn-default" type="submit" value="Kirim">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </div>
+    <div id="eksak" class="container"></div>
+    <div id="hasil" class="container"></div>
+    <!--End Step1-->
+    <script>
+        $(document).ready(function () {
+            var t1, t2;
+            var p, q, r, s;
+            var a, b;
+            var eksak, segmen, delta;
+            var ip;
+            var tt = []
+                , xx = []
+                , lt = [];
+            $("#kiriM").click(function () {
+                t1=0,t2=0,p=0,r=0,s=0,q=0;
+                tt=[],xx=[],lt=[];
+                t1 = parseFloat($("#t1").val());
+                t2 = parseFloat($("#t2").val());
+                var t = [];
+                t.push(t1);
+                t.push(t2);
+                p = parseFloat($("#p").val());
+                q = parseFloat($("#q").val());
+                r = parseFloat($("#r").val());
+                s = parseFloat($("#s").val());
+                segmen = parseInt($("#segmen").val());
+                var eksak = 0;
+                var negasi = 1;
+                for (var i = t.length - 1; i >= 0; i--) {
+                    eksak += (negasi * (p * ((r * t[i] + Math.log(q + r * t[i]) * (q + r * t[i]) - q) / r + Math.log(q) * t[i]) - s / 2 * Math.pow(t[i], 2)));
+                    negasi *= -1;
+                }
+                delta = (t2 - t1) / segmen;
+                for (var i = 0; i <= segmen; i++) {
+                    if (i == 0)
+                        tt.push(t1);
+                    else
+                        tt.push(tt[i - 1] + delta);
+                    xx.push(p * Math.log(q / (q + r * tt[i])) - s * tt[i]);
+                }
+                for (var i = 0; i < segmen; i++) {
+                    lt.push((tt[i + 1] - tt[i]) * (xx[i] + xx[i + 1]) / 2);
+                }
+                ip = 0;
+                for (var i = 0; i < lt.length; i++)
+                    ip += lt[i];
+                if (segmen > 1)
+                    $("#eksak").html("<blockquote>Segmen 1 sampai " + segmen + "<p>Eksak = " + eksak + "</p></blockquote>");
+                var tabelS = "<div class='table-responsive'><table class='table table table-bordered table-striped text-center'>";
+                tabelS += "<thead><tr><th >T</th><th>X</th><th>Segmen 1 - " + segmen + "</th><th>Integral Pendekatan</th></tr></thead>";
+                while (segmen >= 0) {
+                    var ttSemen = tt[tt.length - segmen - 1];
+                    if (segmen == 0)
+                        ttSemen = Math.abs(ttSemen).toFixed(0);
+                    else
+                        ttSemen = Math.abs(ttSemen).toFixed(2);
+                    tabelS += "<tr><td class='non'>" + ttSemen + "</td>";
+                    tabelS += "<td class='non'>" + xx[xx.length - segmen - 1] + "</td>";
+                    if (tt.length > 2 && segmen > 0)
+                        tabelS += "<td class='non'>" + lt[tt.length - segmen - 1] + "</td>";
+                    else
+                        tabelS += "<td  class='non'></td>";
+                    if (tt.length - segmen == 1)
+                        tabelS += "<td class='non'>" + ip + "</td>";
+                    else
+                        tabelS += "<td class='non'></td>";
+                    tabelS += "</tr>";
+                    segmen--;
+                }
+                tabelS += "<tr><td colspan='3' class='abu1'>True Error</td><td>" + (eksak - ip) + "</td></tr>";
+                tabelS += "<tr><td colspan='3' class='abu1'>Absolute Relative Error</td><td>" + Math.abs(100 * (eksak - ip) / eksak) + "%</td></tr>";
+                tabelS += "</table>";
+                $("#hasil").html(tabelS);
+            });
+
+        });
+    </script>
+</body>
+
+</html>

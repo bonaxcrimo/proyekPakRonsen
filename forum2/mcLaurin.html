@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>mcLaurin</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/gayaCramer.css">
+    <link rel="stylesheet" href="../jquery.hemiIntro.css">
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/math.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../jquery.hemiIntro.js"></script>
+    <style>
+        .input1 {
+            border-radius: none;
+        }
+
+        .btn1 {
+            border-radius: 0;
+            background: #333;
+            padding: 10px 20px;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #ccc;
+            border-color: #ccc;
+            color: #333;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td.non {
+            border: 0;
+        }
+
+        .abu1 {
+            background: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Step1-->
+    <div id="atas">
+        <span class="logo">Tugas Pak Ronsen</span>
+        <div class="kananBack">
+            <a href="../index.html"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+        </div>
+
+    </div>
+    <div class="container">
+        <section>
+            <div class="page-header">
+                <h2>Metode <small>mcLaurin</small></h2>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="awal" class="col-xs-4 control-label">Nilai</label>
+                            <div class="col-xs-6">
+                                <input type="text" class="big" id="nNilai" placeholder="Masukkan Nilai " required>
+
+                            </div>
+                            <div class="col-xs-4"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="awal" class="col-xs-4 control-label">Pilih Salah Satu</label>
+                            <div class="col-xs-6">
+                                <select name="" id="pil" class="form-control flat">
+                                    <option value="sin">Sin</option>
+                                    <option value="cos">Cos</option>
+                                    <option value="ex">Ex</option>
+
+                                </select>
+                            </div>
+                            <div class="col-xs-4"></div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <input id="kiriM" class="btn btn1 btn-default" type="submit" value="Kirim">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+    <div id="hasil" class="container"></div>
+    <!--End Step1-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Selamat Datang</h4>
+                </div>
+                <div class="modal-body">
+                    Silahkan klik Start untuk memulai tur singkat penggunaan program
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-8">
+                        <p>Copyright &copy; 2016 designed by : Bona Tua</p>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Start</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            var x, n;
+            var aRRi = [];
+            var aRRfx = [];
+
+            function fak(n) {
+                return n <= 1 ? 1 : n * fak(n - 1);
+            }
+
+            function cSin(n) {
+                x = Math.PI * n / 180;
+
+                var jumlah = 0;
+                if ($("#pil").val() == "sin") {
+                    aRRi = [];
+                    aRRfx = [];
+                    var fx = x;
+                    var i = 1
+                        , jumlah = 0
+                        , angka = 1
+                        , pangkat = 1;
+                    jumlah += fx;
+                    aRRi.push(i);
+                    aRRfx.push(fx);
+                    while (Math.abs(fx) > 1e-11) {
+                        pangkat += 2;
+                        angka += 2;
+                        i += 1;
+                        fx = Math.pow(x, pangkat) / fak(angka);
+                        if (i % 2 == 0)
+                            fx *= -1
+                        jumlah += fx;
+                        aRRi.push(i);
+                        aRRfx.push(fx);
+                    }
+
+                } else if ($("#pil").val() == "cos") {
+                    aRRi = [];
+                    aRRfx = [];
+                    var fx = Math.cos(0);
+                    var i = 1
+                        , jumlah = 0
+                        , angka = 2
+                        , pangkat = 2;
+                    jumlah += fx;
+                    aRRi.push(i);
+                    aRRfx.push(fx);
+                    while (Math.abs(fx) > 1e-11) {
+                        i += 1;
+                        fx = Math.pow(x, pangkat) / fak(angka);
+                        if (i % 2 == 0)
+                            fx *= -1;
+                        jumlah += fx;
+                        aRRi.push(i);
+                        aRRfx.push(fx);
+                        pangkat += 2;
+                        angka += 2;
+                    }
+                } else if ($("#pil").val() == "ex") {
+                    aRRi = [];
+                    aRRfx = [];
+                    var fx = Math.cos(0);
+                    var i = 0
+                        , jumlah = 0
+                        , angka = 0
+                        , pangkat = 0;
+
+                    while (i < 17) {
+                        i += 1;
+                        fx = Math.pow(n, pangkat) / fak(angka);
+
+                        jumlah += fx;
+                        aRRi.push(i);
+                        aRRfx.push(fx);
+                        pangkat += 1;
+                        angka += 1;
+                    }
+                }
+                var tabelS = "<div class='table-responsive'><table class='table table table-bordered table-striped text-center'>";
+                tabelS += "<caption></caption><thead><tr><th >Iterasi</th><th>FX</th></tr></thead>";
+                for (var i = 0; i < aRRfx.length; i++) {
+                    tabelS += "<tr><td>" + aRRi[i] + "</td><td>" + aRRfx[i] + "</td></tr>";
+                }
+                tabelS += "<tr><td class='abu1'>Hasil " + $("#pil").val() + "</td><td colspan='2'>" + jumlah + "</td></tr>";
+                tabelS += "</table>";
+                $("#hasil").html(tabelS);
+
+            }
+            $("#kiriM").click(function () {
+                cSin(parseFloat($("#nNilai").val()));
+            });
+            var intro = $.hemiIntro({
+                debug: false
+                , steps: [
+                    {
+                        selector: ".kananBack"
+                        , placement: "bottom"
+                        , content: "Untuk kembali ke halaman home"
+                        , offsetTop: 100
+                            }
+
+
+
+
+
+
+
+                    , {
+                        selector: "#nNilai"
+                        , placement: "bottom"
+                        , content: "Masukkan nilai"
+                        , offsetTop: 100
+                            }
+
+
+
+
+                    ,  {
+                        selector: "#pil"
+                        , placement: "bottom"
+                        , content: "Pilih salah satu "
+                        , offsetTop: 100
+                            }
+
+
+
+
+                    , {
+                        selector: "#kiriM"
+                        , placement: "right"
+                        , content: "Klik kirim untuk melihat hasil"
+                            }
+
+
+
+
+
+
+
+
+                    , ]
+                , startFromStep: 0
+                , backdrop: {
+                    element: $("<div>")
+                    , class: "hemi-intro-backdrop"
+                }
+
+
+
+
+
+
+
+
+                , popover: {
+                    template: '<div class="popover hemi-intro-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+                }
+                , buttons: {
+                    holder: {
+                        element: $("<div>")
+                        , class: "hemi-intro-buttons-holder"
+                    }
+                    , next: {
+                        element: $("<button>Next</button>")
+                        , class: "btn btn-primary"
+                    }
+                    , finish: {
+                        element: $("<button>Finish</button>")
+                        , class: "btn btn-primary"
+                    }
+                }
+                , welcomeDialog: {
+                    show: true
+                    , selector: "#myModal"
+                }
+
+
+
+
+
+
+
+
+
+                , scroll: {
+                    anmationSpeed: 500
+                }
+                , currentStep: {
+                    selectedClass: "hemi-intro-selected"
+                }
+
+            });
+            intro.start();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Euler</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../css/gayaCramer.css">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/math.min.js"></script>
+    <style>
+        .input1 {
+            border-radius: none;
+        }
+
+        .big {
+            width: 100%;
+        }
+
+        .btn {
+            border-radius: 0;
+            background: #333;
+            padding: 10px 20px;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #ccc;
+            border-color: #ccc;
+            color: #333;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td.non {
+            border: 0;
+        }
+
+        .abu1 {
+            background: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Step1-->
+    <div id="atas">
+        <span class="logo">Tugas Pak Ronsen</span>
+        <div class="kananBack">
+            <a href="../index.html"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+        </div>
+
+    </div>
+    <div class="container">
+
+        <div id="hasil" class="container"></div>
+        <!--End Step1-->
+        <script>
+            $(document).ready(function () {
+                var tabelS = "";
+                var data=["Angka - ","Nama - ","Hello","siapa"]
+                function cetak() {
+                    var tabelSS = "<div class='col-md-"+data.length+"'><table class='table table table-bordered table-striped text-center'>";
+                    tabelSS += "<caption></caption><thead><tr><th >Iterasi</th></tr></thead>";
+
+                    for (var i = 0; i < 12; i++) {
+                        tabelSS += "<tr><td>" + data[0] + "</td><td>Isi "+data[1]+"</td><td>"+data[2]+"</td></tr>";
+
+                    }
+                    tabelSS += "</table></div>";
+                    return tabelSS;
+                }
+                for(var i=0;i<17;i++)
+                    tabelS+=cetak();
+                tabelS+="</div>"
+                $("#hasil").html(tabelS);
+
+
+            });
+        </script>
+</body>
+
+</html>

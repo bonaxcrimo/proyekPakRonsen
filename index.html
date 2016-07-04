@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>proyekPakRonsen</title>
+</head>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" href="jquery.hemiIntro.css">
+
+<link rel="shortcut icon" href="img/logoBig.png" type="image/x-icon">
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="jquery.hemiIntro.js"></script>
+<style>
+    ul.tab li a {
+        transition: 0.3s;
+        text-decoration: none;
+    }
+
+    body {
+        background: #EFEEEC;
+    }
+
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        -webkit-animation: fadeEffect 1s;
+        animation: fadeEffect 1s;
+    }
+
+    @-webkit-keyframes fadeEffect {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeEffect {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    div#konten {
+        height: 100px;
+        max-height: 100px;
+        overflow: auto;
+        padding-top: 19px;
+        font-size: 12px;
+        color: #333;
+    }
+
+    div.box {
+        margin-top: 15px;
+    }
+
+    div.box:first-child,
+    div.box:nth-child(2) {
+        margin: none;
+    }
+
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: #eaeaea;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #2E3740;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #2E3740;
+    }
+</style>
+
+<body>
+    <div id="atas">
+        <span class="logo">
+        Tugas Pak Ronsen
+    </span>
+    </div>
+    <div id="kiri">
+        <div id="isi">
+            <ul class="tab">
+                <!--
+            <li><a href="#" class="tablinks">Minggu 1</a></li>
+            <li><a href="#" class="tablinks">Minggu 2</a></li>
+            <li><a href="#" class="tablinks">Minggu 3</a></li>
+-->
+            </ul>
+        </div>
+    </div>
+    <div id="kanan">
+        <div class="isi">
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Selamat Datang</h4>
+                </div>
+                <div class="modal-body">
+                    Silahkan klik Start untuk memulai tur singkat
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-8">
+                        <p>Copyright &copy; 2016 designed by : Bona Tua</p>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Start</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+
+            var li = "";
+            for (var i = 0; i < 14; i++) {
+                if (i == 0)
+                    li += "<li class='aktif'><a href='#' class='tablinks'>Minggu" + (i + 1) + "</a></li>";
+                else if (i != 12)
+                    li += "<li><a href='#' class='tablinks'>Minggu" + (i + 1) + "</a></li>";
+            }
+            $("ul.tab").append(li);
+            $.getJSON("dataForum.json", function (data) {
+                var items = "";
+                $.each(data, function (key, val) {
+                    $.each(val, function (key1, val1) {
+                        if (key1 != "data")
+                            items += ("<div id='" + val1 + "' class='tabcontent'>");
+                        else {
+                            $.each(val1, function (key2, val2) {
+                                $.each(val2, function (key3, val3) {
+                                    if (key3 == "judul") {
+                                        items += "<div class='box'><div class='isi'><h2>" + val3 + "</h2>";
+                                    } else if (key3 == "konten") {
+                                        items += "<div id='konten' class='scroll-panel'>" + val3 + "</div>";
+                                    } else {
+                                        items += "<p id='link'><a href='" + val3 + "'>Lihat Program</a></p></div></div>";
+                                    }
+                                });
+                            });
+                            items += "</div>";
+                        }
+                    });
+
+                });
+                $("#kanan .isi").append(items);
+
+                openCity("minggu1");
+
+
+            });
+
+            function openCity(cityName) {
+                var i, tabcontent, tablinks;
+                tabcontent = $(".tabcontent");
+                //        for (i = 0; i < tabcontent.length; i++) {
+                //            tabcontent.css("display","none");
+                //        }
+                tabcontent.css("display", "none");
+                $("#" + cityName).css("display", "block");
+            }
+            $("ul.tab li").click(function () {
+                $('li').removeClass("aktif");
+                $(this).addClass("aktif");
+                openCity("minggu" + (parseInt($("li").index(this)) + 1));
+            });
+            var intro = $.hemiIntro({
+                debug: false
+                , steps: [
+                    {
+                        selector: "#atas"
+                        , placement: "bottom"
+                        , content: "Ini merupakan bagian header berisi judul web"
+                    , }
+
+
+
+                    , {
+                        selector: ".aktif"
+                        , placement: "right"
+                        , content: "Jika ingin melihat tugas di setiap minggu anda bisa mengklik pilihan minggu"
+                        , offsetTop: 100
+                            }
+
+
+
+                    , {
+                        selector: "#link"
+                        , placement: "right"
+                        , content: "Klik lihat program untuk menuju ke program"
+                        , offsetTop: 10
+                            }
+
+
+
+                    , ]
+                , startFromStep: 0
+                , backdrop: {
+                    element: $("<div>")
+                    , class: "hemi-intro-backdrop"
+                }
+
+
+                , popover: {
+                    template: '<div class="popover hemi-intro-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+                }
+                , buttons: {
+                    holder: {
+                        element: $("<div>")
+                        , class: "hemi-intro-buttons-holder"
+                    }
+                    , next: {
+                        element: $("<button>Next</button>")
+                        , class: "btn btn-primary"
+                    }
+                    , finish: {
+                        element: $("<button>Finish</button>")
+                        , class: "btn btn-primary"
+                    }
+                }
+                , welcomeDialog: {
+                    show: true
+                    , selector: "#myModal"
+                }
+
+
+
+                , scroll: {
+                    anmationSpeed: 500
+                }
+                , currentStep: {
+                    selectedClass: "hemi-intro-selected"
+                }
+
+            });
+            intro.start();
+
+
+        });
+    </script>
+</body>
+
+</html>

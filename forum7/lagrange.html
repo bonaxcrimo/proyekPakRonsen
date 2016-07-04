@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lagrange</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../css/gayaCramer.css">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/math.min.js"></script>
+    <script src="../js/fungsi.js"></script>
+    <style>
+        .input1 {
+            border-radius: none;
+        }
+
+        .big {
+            width: 100%;
+        }
+
+        .btn {
+            border-radius: 0;
+            background: #333;
+            padding: 10px 20px;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #ccc;
+            border-color: #ccc;
+            color: #333;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td.non {
+            border: 0;
+        }
+
+        .abu1 {
+            background: #2E3740;
+            color: white;
+        }
+
+        .kecil {
+            margin-right: 3px;
+        }
+
+        .biru {
+            background: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Step1-->
+    <div id="atas">
+        <span class="logo">Tugas Pak Ronsen</span>
+        <div class="kananBack">
+            <a href="../index.html"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+        </div>
+
+    </div>
+    <div class="container">
+        <section>
+
+            <div class="page-header">
+                <h2>Latihan <small>Metode Lagrange</small></h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <p class="help-block"><b>NB:</b>Angka yang digunakan dibawah adalah contoh anda dapat mengganti sesuai keinginan</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Input Banyak Titik</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="nTitik" placeholder="Masukkan N Titik" required>
+                                <p class="help-block">Input angka 6 untuk melihat contoh percobaan</p>
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+
+                        <div class="xx">
+                            <div class="form-group">
+                                <label for="awal" class="col-lg-2 control-label">Nilai X</label>
+                                <div class="col-lg-6" id="deretX">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="awal" class="col-lg-2 control-label">Nilai Y</label>
+                                <div class="col-lg-6" id="deretY">
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Input Besar Pangkat</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="pangkat" placeholder="Masukkan Besar Pangkat" required>
+                                <p class="help-block">Pangkat Antara 1 sampai 4
+                                    <br> Tombol kirim akan terbuka jika yang lain sudah terisi</p>
+                            </div>
+
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <input id="kiriM" class="btn btn-default abu1" type="submit" value="Kirim">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </div>
+    <div id="hasil" class="container">
+        <div class="row table-responsive" id="pertama">
+
+        </div>
+        <div class="row table-responsive" id="kedua">
+
+        </div>
+        <div class="row table-responsive" id="kedt">
+
+        </div>
+        <div class="row table-responsive" id="ketiga">
+
+        </div>
+        <div class="row table-responsive" id="akhir"></div>
+    </div>
+    <!--End Step1-->
+    <script>
+        $(document).ready(function () {
+            var nTitik;
+            var arrX;
+            var arrY;
+            var xS = [2.13, 3.7, 7.11, 7.5, 11.3, 13.5];
+            var yS = [1.83, 2.01, 3.01, 4.1, 5.02, 5.6];
+            var pangkat;
+            var arrA = [];
+            var arrSemen = [];
+            var arrSemen4 = [];
+            var akhir2 = [];
+            var akhir = [];
+            var akhir3 = [];
+            var akhir4 = [];
+            $(".alert").hide();
+            $(".xx").hide();
+            $("#kiriM").attr("disabled", "");
+            $("#nTitik").keyup(function () {
+                if ($("#nTitik").val().trim() != '') {
+
+                    var itemX = "";
+                    var itemY = "";
+                    for (var i = 0; i < parseInt($("#nTitik").val()); i++) {
+
+                        itemX += ("<input type='text' id='x" + i + "' placeholder='x" + i + "' class='kecil' value='" + xS[i] + "'>");
+                        itemY += ("<input type='text' id='y" + i + "' placeholder='y" + i + "' class='kecil' value='" + yS[i] + "'>");
+                    }
+                    $("#deretX").html(itemX);
+                    $("#deretY").html(itemY);
+                    $(".xx").show();
+                    $("#kiriM").removeAttr("disabled");
+                } else {
+                    $(".xx").hide();
+                }
+
+            });
+            /*Akhir event change nTitik*/
+
+            $("#pangkat").keyup(function () {
+                if ($("#pangkat").val().trim() != '' && parseInt($("#pangkat").val()) >= 1 && parseInt($("#pangkat").val()) <= 4) {
+                    $(".alert").hide();
+
+                    $("#kiriM").removeAttr("disabled");
+                } else {
+                    $(".alert").show();
+                    $("#kiriM").attr("disabled", "");
+                }
+
+            });
+            $("#kiriM").click(function () {
+                arrX = [];
+                arrY = [];
+                arrA = [];
+                arrSemen = [];
+                arrSemen4 = [];
+                akhir2 = [];
+                akhir = [];
+                akhir3 = [];
+                akhir4 = [];
+                nTitik = parseInt($("#nTitik").val());
+                arrX = new Array(nTitik);
+                arrY = new Array(nTitik);
+                pangkat = parseInt($("#pangkat").val());
+
+                for (var i = 0; i < nTitik; i++) {
+                    var x1 = parseFloat($("#x" + i).val());
+                    var y1 = parseFloat($("#y" + i).val());
+                    arrX[i] = x1;
+                    arrY[i] = y1;
+                }
+                bentukA();
+                var hasil = "";
+                if (pangkat == 1) {
+                    hasil = "";
+                    var L0 = (0 - arrX[1]) / (arrX[0] - arrX[1]);
+                    var L1 = (0 - arrX[0]) / (arrX[1] - arrX[0]);
+                    arrA[0] = L0 * arrY[0] + L1 * arrY[1];
+                    arrA[1] = 1 / (arrX[0] - arrX[1]) * arrY[0] + 1 / (arrX[1] - arrX[0]) * arrY[1];
+                    hasil += cetakA(pangkat);
+                    hasil += cetak(pangkat);
+                } else if (pangkat == 2) {
+                    hasil = "";
+                    arrA[0] = LNol(pangkat);
+                    arrA[1] = LSatu(pangkat);
+                    arrA[2] = LDua(pangkat);
+                    hasil +=cetakA(pangkat);
+                    hasil +=cetak(pangkat)
+                } else if (pangkat == 3) {
+                    hasil = "";
+                    arrA[0] = LNol(pangkat);
+                    arrA[1] = LSatu(pangkat);
+                    arrA[2] = LTiga(pangkat);
+                    arrA[3] = LDua(pangkat);
+                    hasil +=cetakA(pangkat);
+
+                    hasil +=cetak(pangkat);
+                } else if (pangkat == 4) {
+                    hasil = "";
+                    arrA[0] = LNol(pangkat);
+                    arrA[1] = LSatu(pangkat);
+                    LTiga(pangkat);
+                    LTiga(pangkat - 1);
+                    var a3 = 0;
+                    var a2 = 0;
+                    for (var i = 0; i < pangkat + 1; i++) {
+                        if (i == pangkat) {
+                            a2 += (1 / (arrSemen[i]) * (akhir2[i] * akhir[i] + arrSemen4[i - 1]) * arrY[i]);
+                            a3 += (1 / (arrSemen[i]) * -(arrSemen4[i - 1] * akhir[i] + akhir3[i]) * arrY[i]);
+                        } else {
+                            a2 += (1 / (arrSemen[i]) * (akhir2[i] * akhir[i] + arrSemen4[i]) * arrY[i]);
+                            a3 += (1 / (arrSemen[i]) * -(arrSemen4[i] * akhir[i] + akhir3[i]) * arrY[i]);
+                        }
+                    }
+                    arrA[2] = a2;
+                    arrA[3] = a3;
+                    arrA[4] = LDua(pangkat);
+                    hasil +=cetakA(pangkat);
+                    hasil +=cetak(pangkat);
+                }
+                $("#kedua").html(hasil);
+            });
+
+            function cetakA(n) {
+                var tabel = "";
+                tabel += "<div class='col-md-12'><table class='table table table-bordered table-striped text-center'>";
+                for (var i = 0; i < n + 1; i++) {
+                    tabel += "<tr><td class='biru'>a" + i + "</td><td>" + arrA[i] + "</td></tr>";
+                }
+                tabel += "</table></div>";
+                //                $("#tabel").append(tabel);
+                return tabel;
+            }
+
+            function bentukA() {
+                for (var i = 0; i < pangkat + 1; i++) {
+                    arrA.push(0);
+                }
+            }
+
+            function LNol(n) {
+                var total = 0;
+                var semen = 1;
+                for (var i = 0; i < n + 1; i++) {
+                    for (var j = 0; j < n; j++) {
+                        var s = arrX[i];
+                        s -= arrX[(i + (j + 1)) % (n + 1)];
+                        semen *= s;
+                    }
+                    total += (1 / semen) * arrY[i];
+                    semen = 1;
+                }
+                return total;
+            }
+
+            function LSatu(n) {
+                var total = 0;
+                var semen = 1;
+                var semen2 = 0;
+                for (var i = 0; i < n + 1; i++) {
+                    for (var j = 0; j < n; j++) {
+                        var s = arrX[i];
+                        s -= arrX[(i + (j + 1)) % (n + 1)];
+                        semen *= s;
+                        semen2 += arrX[(n + 1 + (i + 1) + j) % (n + 1)];
+                    }
+                    semen2 *= -1;
+                    total += (1 / semen) * semen2 * arrY[i];
+                    semen = 1;
+                    semen2 = 0;
+                }
+                return total;
+            }
+
+            function LDua(n) {
+                var total = 0;
+                var semen = 1;
+                var semen2 = 1;
+                for (var i = 0; i < n + 1; i++) {
+                    for (var j = 0; j < n; j++) {
+                        var s = arrX[i];
+                        s -= arrX[(i + (j + 1)) % (n + 1)];
+                        semen *= s;
+                        semen2 *= arrX[(n + 1 + (i + 1) + j) % (n + 1)];
+                    }
+                    total += (1 / semen) * semen2 * arrY[i];
+                    semen = 1;
+                    semen2 = 1;
+                }
+                return total;
+            }
+
+            function LTiga(n) {
+                var total = 0;
+                var semen = 1;
+                var semen1 = 1;
+                var semen2 = 1;
+                var semen3 = 0;
+                var kali = 0;
+                for (var i = 0; i < n + 1; i++) {
+                    var index = 0;
+                    var tot = 0;
+                    var tot1 = 1;
+                    for (var j = 0; j < n + 1; j++) {
+                        if (i != j) {
+                            if (index != n - 1) {
+                                semen3 += arrX[j];
+                                semen2 *= arrX[j];
+                                tot += arrX[j];
+                            }
+                            tot1 *= arrX[j];
+                            if (index == n - 1) {
+                                kali += arrX[j];
+                            }
+                            index++;
+                        }
+                    }
+                    for (var j = 0; j < n; j++) {
+                        var s = arrX[i];
+                        s -= arrX[(i + (j + 1)) % (n + 1)];
+                        semen *= s;
+                    }
+                    var semen4 = semen3 * kali + semen2;
+                    if (n == 4) {
+                        arrSemen.push(semen);
+                        akhir.push(kali);
+                        akhir2.push(tot);
+                        akhir4.push(tot1);
+                        akhir3.push(semen2);
+                    }
+                    if (n == 3) {
+                        arrSemen4.push(semen4);
+                    }
+                    total += (1 / semen) * semen4 * arrY[i];
+                    kali = 0;
+                    tot1 = 1;
+                    semen2 = 1;
+                    tot = 0;
+                    semen3 = 0;
+                    semen = 1;
+                }
+                return total;
+            }
+
+            function cetak(n) {
+                var tabel = "";
+                tabel += "<div class='col-md-12'><table class='table table table-bordered table-striped text-center'>";
+                tabel += "<tr><td class='biru'>X</td><td class='biru'>Y</td><td class='biru'>Y" + "'".repeat(n) + "</td><td class='biru'>Error</td></tr>";
+                var total = 0;
+                for (var i = 0; i < arrX.length; i++) {
+                    var an = arrA[0];
+                    for (var j = 1; j < pangkat + 1; j++) {
+                        an += arrA[j] * Math.pow(arrX[i], j);
+                    }
+                    tabel += "<tr><td>" + arrX[i] + "</td><td>" + arrY[i] + "</td><td>" + an.toFixed(5) + "</td><td>" + Math.abs(arrY[i] - an).toFixed(5) + "</td></tr>";
+                    total += Math.abs(arrY[i] - an);
+                }
+                tabel += "<tr><td colspan='3'>Total Error</td><td >" + total.toFixed(2) + "</td></tr>";
+                tabel += "</table></div>";
+                //                $("#tabel").append(tabel);
+                return tabel;
+            }
+        });
+    </script>
+</body>
+
+</html>

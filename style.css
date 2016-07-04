@@ -1,0 +1,353 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: arial;
+}
+
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+abbr,
+address,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+var,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+menu,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+article,
+aside,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
+    display: block;
+}
+
+nav ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+a {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+ins {
+    background-color: #ff9;
+    color: #000;
+    text-decoration: none;
+}
+
+mark {
+    background-color: #ff9;
+    color: #000;
+    font-style: italic;
+    font-weight: bold;
+}
+
+del {
+    text-decoration: line-through;
+}
+
+abbr[title],
+dfn[title] {
+    border-bottom: 1px dotted #000;
+    cursor: help;
+}
+
+
+/* tables still need cellspacing="0" in the markup */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+input,
+select {
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+div#atas {
+    height: 5em;
+    background: #7EBFE9;
+    width: 100%;
+    line-height: 5em;
+}
+
+span.logo {
+    float: left;
+    color: white;
+    font-size: 1.3em;
+    margin-left: 1.3em;
+}
+
+div#kiri {
+    width: 22.5%;
+    min-height: 50em;
+    background: #2E3740;
+    float: left;
+}
+
+div#kanan {
+    float: left;
+    width: 77.5%;
+    min-height: 50em;
+    background: #EFEEEC;
+}
+
+div#isi {
+    margin: .65em 0;
+}
+
+div#isi ul {
+    list-style: none;
+    width: 99.5%;
+    padding: 0;
+    text-align: center;
+    margin-top: 4em;
+}
+
+div#isi li {
+    border-left: 3px solid #2E3740;
+    padding: 1.3em 0;
+    margin-bottom: .5em;
+}
+
+div#isi a {
+    text-decoration: none;
+    color: #777A80;
+    font-weight: bold;
+}
+
+div#isi li:hover,
+div#isi li.aktif {
+    background: #353C46;
+    border-left: 3px solid #7EBFE9;
+}
+
+div#isi li:hover a,
+div#isi li.aktif a {
+    color: white;
+}
+
+div.isi {
+    padding: 15px;
+}
+
+div.box {
+    width: 47.5%;
+    min-height: 10em;
+    background: white;
+    float: left;
+    margin-left: 1.5%;
+}
+
+div.isi2 {
+    padding: .7em;
+}
+
+h2 {
+    margin: .3em 0;
+    color: #777A80;
+}
+
+p#link {
+    margin: .5em;
+    text-align: right;
+    margin-top: 1.6em;
+}
+
+p#link a {
+    padding: .9em .7em;
+    color: #2E3740;
+    transition: .5s ease-in-out;
+}
+
+p#link a:hover {
+    background: #2E3740;
+    color: white;
+}
+
+.kananBack {
+    float: right;
+    width: 6em;
+    margin-right: 1em;
+}
+
+label.btn span {
+    font-size: 1.5em;
+}
+
+label input[type="radio"] ~ i.fa.fa-circle-o {
+    color: #c8c8c8;
+    display: inline;
+}
+
+label input[type="radio"] ~ i.fa.fa-check-circle-o {
+    display: none;
+}
+
+label input[type="radio"]:checked ~ i.fa.fa-circle-o {
+    display: none;
+}
+
+label input[type="radio"]:checked ~ i.fa.fa-check-circle-o {
+    color: #7AA3CC;
+    display: inline;
+}
+
+label:hover input[type="radio"] ~ i.fa {
+    color: #7AA3CC;
+}
+
+.kananBack a {
+    border: 3px solid white;
+    color: white;
+    text-decoration: none;
+    padding: 0.8em 1em;
+    transition: 0.1s linear;
+}
+
+.kananBack a:hover {
+    /* background: #2E3740;*/
+    border: 3px solid #2E3740;
+    color: #2E3740;
+}
+
+div[data-toggle="buttons"] label.active {
+    color: #7AA3CC;
+}
+
+div[data-toggle="buttons"] label {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 2em;
+    text-align: left;
+    white-space: nowrap;
+    vertical-align: top;
+    cursor: pointer;
+    background-color: none;
+    border: 0px solid #c8c8c8;
+    border-radius: 3px;
+    color: #c8c8c8;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+div[data-toggle="buttons"] label:hover {
+    color: #7AA3CC;
+}
+
+div[data-toggle="buttons"] label:active,
+div[data-toggle="buttons"] label.active {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.flat {
+    border-radius: none;
+}

@@ -1,0 +1,91 @@
+[
+    {
+        "id": "minggu1",
+        "data": [
+            {"judul":"Akar Positif 1","konten":"Menghitung akar dari bilangan","hal":"forum1/akar.html"}
+        ]
+    },
+    {
+        "id": "minggu2",
+        "data": [
+            {"judul":"Latihan McLaurin","konten":"Menghitung deret McLaurin","hal":"forum2/mcLaurin.html"},
+            {"judul":"Latihan Bisection","konten":"Menghitung akar metode bisection","hal":"forum2/bisection.html"},
+            {"judul":"Latihan Regula Falsi","konten":"Menghitung akar metode regula falsi","hal":"forum2/regula.html"}
+        ]
+    },
+    {
+        "id": "minggu3",
+        "data": [
+            {"judul":"Latihan Akar Langsung","konten":"Menghitung akar metode langsung","hal":"forum3/langsung.html"},
+            {"judul":"Latihan Akar Newton-Raphson","konten":"Menghitung akar metode newton-raphson","hal":"forum3/newton.html"},
+            {"judul":"Latihan Secant","konten":"Menghitung dengan metode secant","hal":"forum3/secand.html"}
+        ]
+    },
+    {
+        "id": "minggu4",
+        "data": [
+            {"judul":"Gauss Jordan","konten":"Latihan dengan menggunakan Gauss Jordan","hal":"forum4/gaussJordan.html"},
+            {"judul":"Cramer","konten":"Latihan dengan menggunakan Metode Cramer","hal":"forum4/cramer.html"}
+        ]
+    },
+    {
+        "id": "minggu5",
+        "data": [
+            {"judul":"Gauss Seidel","konten":"Latihan dengan menggunakan gauss seidel","hal":"forum5/gaussSeidel.html"}
+        ]
+    },
+    {
+        "id": "minggu6",
+        "data": [
+            {"judul":"Interpolasi Newton","konten":"Latihan dengan menggunakan Interpolasi Newton","hal":"forum6/newton.html"},
+            {"judul":"Interpolasi Langsung","konten":"Latihan dengan menggunakan Interpolasi Langsung","hal":"forum6/langsung.html"}
+        ]
+    },
+    {
+        "id": "minggu7",
+        "data": [
+            {"judul":"Lagrange","konten":"Latihan dengan menggunakan Metode Lagrange","hal":"forum7/lagrange.html"},
+            {"judul":"Spline","konten":"Latihan dengan menggunakan Metode Spline","hal":"forum7/spline.html"}
+        ]
+    },
+    {
+        "id": "minggu8",
+        "data": [
+            {"judul":"Regresi","konten":"Latihan regresi","hal":"forum8/regresi.html"}
+        ]
+    },
+    {
+        "id": "minggu9",
+        "data": [
+            {"judul":"Turunan Numerik","konten":"Latihan Turunan numerik dengan 3 metode (FDA, BDA dan CDA)","hal":"forum9/turunanR2.html"}
+        ]
+    },
+    {
+        "id": "minggu10",
+        "data": [
+            {"judul":"Turunan order tinggi","konten":"Saatnya Berlatih Turunan Order Tinggi","hal":"forum10/tinggi.html"}
+        ]
+    },
+    {
+        "id": "minggu11",
+        "data": [
+            {"judul":"Latihan Integral Metode Trapesium","konten":"Trapezoidal Rule didasarkan pada formula <b>Newton-Cotes</b> yang menyatakan bahwa kita dapat mendekati fungsi <i>f</i> sebagai polinomial order <i>n</i>","hal":"forum11/trapesium.html"}
+        ]
+    },
+      {
+        "id": "minggu12",
+        "data": [
+            {"judul":"Latihan Simpson 1/3","konten":"Simpson 1/3 ","hal":"forum12/simpson13.html"},
+            {"judul":"Latihan Simpson 3/8","konten":"<h1>Simpson 3/8</h1> ","hal":"forum12/simpson38.html"}
+        ]
+    },
+
+    {
+        "id": "minggu13",
+        "data": [
+            {"judul":"Latihan 1 Euler Metode Euler","konten":"Berlatih dengan pilihan:<br><ol><li>Mengganti fungsi atau mengganti konstanta</li><li>Mengganti y(x) dengan h variasi</li><li>Menghitung error</li><li>Tuliskan hasil pengamatan anda</li></ol>","hal":"forum14/euler1.html"},
+             {"judul":"Latihan 2 Euler Metode Euler","konten":"Berlatih dengan pilihan:<br><ol><li>mengganti initial value</li><li>mengganti nilai c1</li><li>memilih h yang berbeda-beda</li><li>menghitung error</li></ol>","hal":"forum14/euler2.html"},
+             {"judul":"Latihan 3 Euler Metode Euler","konten":"Berlatih dengan pilihan:<br><ol><li>Mengganti fungsi atau mengganti konstanta</li><li>Mengganti y(x) dengan h variasi</li><li>Menghitung error</li><li>Tuliskan hasil pengamatan anda</li></ol>","hal":"forum14/euler3.html"}
+        ]
+    }
+]

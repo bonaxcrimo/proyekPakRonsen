@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Secant</title>
+
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/gayaCramer.css">
+    <link rel="stylesheet" href="../jquery.hemiIntro.css">
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/math.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../jquery.hemiIntro.js"></script>
+    <style>
+        .input1 {
+            border-radius: none;
+        }
+
+
+        .btn {
+            border-radius: 0;
+            background: #333;
+            padding: 10px 20px;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #ccc;
+            border-color: #ccc;
+            color: #333;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td.non {
+            border: 0;
+        }
+
+        .abu1 {
+            background: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Step1-->
+    <div id="atas">
+        <span class="logo">Tugas Pak Ronsen</span>
+        <div class="kananBack">
+            <a href="../index.html"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+        </div>
+
+    </div>
+    <div class="container">
+        <section>
+            <div class="page-header">
+                <h2>Metode <small>Secant</small></h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-4 control-label">Nilai x0</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="x0" placeholder="Masukkan Nilai x0" required>
+
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-4 control-label">Nilai x1</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="x1" placeholder="Masukkan Nilai x1" required>
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <input id="kiriM" class="btn btn-default" type="submit" value="Kirim">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <blockquote>
+
+                        <p>
+                            Fungsi :
+                            <h3>x^3-4x^2-7x+10 </h3>
+                        </p>
+
+                    </blockquote>
+                </div>
+
+
+            </div>
+        </section>
+    </div>
+    <div id="hasil" class="container"></div>
+    <!--End Step1-->
+        <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Selamat Datang</h4>
+                </div>
+                <div class="modal-body">
+                    Silahkan klik Start untuk memulai tur singkat penggunaan program
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-8">
+                        <p>Copyright &copy; 2016 designed by : Bona Tua</p>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Start</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            var x0, x1;
+            $("#kiriM").click(function () {
+                x0 = parseFloat($("#x0").val());
+                x1 = parseFloat($("#x1").val());
+                var hasilTabel="<div class='table-responsive col-md-12'><table class='table table table-bordered table-striped text-center'>";
+                hasilTabel+="<tr> <th>Iteration</th> <th>Xi</th> <th>Xi-Xi-1</th></th>";
+                var arrXI = [];
+                var arrXII = [0];
+                arrXI.push(x0);
+                arrXI.push(x1);
+                var hasil2 = Math.abs(x1 - x0)
+                var i = 2;
+                var x = 0;
+                var xx = 0;
+                var max = 30;
+                while (i < max) {
+                    x = arrXI[i - 1];
+                    xx = arrXI[i - 2];
+
+                    var satu = 0
+                        , dua = 0
+                        , tiga = 0;
+
+                    satu = ((Math.pow(x, 5) - 3 * Math.pow(x, 4) - Math.pow(x, 3) + 2 * Math.pow(x, 2) - x + 12) * (x - xx));
+
+                    dua = (Math.pow(x, 5) - 3 * Math.pow(x, 4) - Math.pow(x, 3) + 2 * Math.pow(x, 2) - x + 12)
+
+                    tiga = (Math.pow(xx, 5) - 3 * Math.pow(xx, 4) - Math.pow(xx, 3) + 2 * Math.pow(xx, 2) - xx + 12);
+
+                    var hasil = 0;
+                    hasil = x - ((satu) / (dua - tiga));
+
+                    hasil2 = Math.abs(arrXI[i - 1] - arrXI[i - 2]);
+                    arrXII.push(hasil2);
+                    arrXI.push(hasil);
+                    if (x1 == x0)
+                        break;
+                    if (hasil == 0 || hasil2 == 0)
+                        break;
+                    i++;
+                }
+                console.log(arrXI);
+                for (var i = 0; i < arrXI.length-1; i++) {
+
+                    hasilTabel+=("<tr><td>" + i + "</td><td>" + parseFloat(arrXI[i]).toFixed(15) + "</td><td>" + parseFloat(arrXII[i]).toFixed(15) + "</td></tr>");
+                }
+                hasilTabel+="</table></div>";
+                $("#hasil").html(hasilTabel);
+            });
+             var intro = $.hemiIntro({
+                debug: false
+                , steps: [
+                    {
+                        selector: ".kananBack"
+                        , placement: "bottom"
+                        , content: "Untuk kembali ke halaman home"
+                        , offsetTop: 100
+                            }
+
+                    , {
+                        selector: "#x0"
+                        , placement: "bottom"
+                        , content: "Masukkan nilai x0 "
+                        , offsetTop: 100
+                            }
+
+                    ,
+                     {
+                        selector: "#x1"
+                        , placement: "bottom"
+                        , content: "Masukkan nilai x1 "
+                        , offsetTop: 100
+                            }
+
+                    ,
+                    {
+                        selector: "#kiriM"
+                        , placement: "right"
+                        , content: "Klik kirim untuk melihat hasil"
+                            }
+
+                    , ]
+                , startFromStep: 0
+                , backdrop: {
+                    element: $("<div>")
+                    , class: "hemi-intro-backdrop"
+                }
+
+
+
+                , popover: {
+                    template: '<div class="popover hemi-intro-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+                }
+                , buttons: {
+                    holder: {
+                        element: $("<div>")
+                        , class: "hemi-intro-buttons-holder"
+                    }
+                    , next: {
+                        element: $("<button>Next</button>")
+                        , class: "btn btn-primary"
+                    }
+                    , finish: {
+                        element: $("<button>Finish</button>")
+                        , class: "btn btn-primary"
+                    }
+                }
+                , welcomeDialog: {
+                    show: true
+                    , selector: "#myModal"
+                }
+
+                , scroll: {
+                    anmationSpeed: 500
+                }
+                , currentStep: {
+                    selectedClass: "hemi-intro-selected"
+                }
+
+            });
+            intro.start();
+        });
+    </script>
+</body>
+
+</html>

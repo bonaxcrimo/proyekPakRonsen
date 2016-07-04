@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lansung</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../css/gayaCramer.css">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/math.min.js"></script>
+    <script src="../js/fungsi.js"></script>
+    <style>
+        .input1 {
+            border-radius: none;
+        }
+
+        .big {
+            width: 100%;
+        }
+
+        .btn {
+            border-radius: 0;
+            background: #333;
+            padding: 10px 20px;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #ccc;
+            border-color: #ccc;
+            color: #333;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td.non {
+            border: 0;
+        }
+
+        .abu1 {
+            background: #2E3740;
+            color: white;
+        }
+
+        .kecil {
+            margin-right: 3px;
+        }
+
+        .biru {
+            background: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Step1-->
+    <div id="atas">
+        <span class="logo">Tugas Pak Ronsen</span>
+        <div class="kananBack">
+            <a href="../index.html"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+        </div>
+
+    </div>
+    <div class="container">
+        <section>
+
+            <div class="page-header">
+                <h2>Latihan <small>Metode Interpolasi Langsung</small></h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <p class="help-block"><b>NB:</b>Angka yang digunakan dibawah adalah contoh anda dapat mengganti sesuai keinginan</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Input Banyak Titik</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="nTitik" placeholder="Masukkan N Titik" required>
+                                <p class="help-block">Input angka 5 untuk melihat contoh percobaan</p>
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+
+                        <div class="xx">
+                            <div class="form-group">
+                                <label for="awal" class="col-lg-2 control-label">Nilai X</label>
+                                <div class="col-lg-6" id="deretX">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="awal" class="col-lg-2 control-label">Nilai Y</label>
+                                <div class="col-lg-6" id="deretY">
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Input Besar Pangkat</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="pangkat" placeholder="Masukkan Besar Pangkat" required>
+                                <p class="help-block">
+                                    Tombol kirim akan terbuka jika yang lain sudah terisi</p>
+                            </div>
+
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <input id="kiriM" class="btn btn-default abu1" type="submit" value="Kirim">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </div>
+    <div id="hasil" class="container">
+        <div class="row table-responsive" id="pertama">
+
+        </div>
+        <div class="row table-responsive" id="kedua">
+
+        </div>
+        <div class="row table-responsive" id="kedt">
+
+        </div>
+        <div class="row table-responsive" id="ketiga">
+
+        </div>
+        <div class="row table-responsive" id="akhir"></div>
+    </div>
+    <!--End Step1-->
+    <script>
+        $(document).ready(function () {
+            var nTitik;
+            var n;
+            var nn;
+            var xS = [2.5, 3.1, 4.3, 5.6, 6.7];
+            var yS = [2.5558, 4.5886, 16.6562, 49.4378, 107.5152];
+            var arrX = [];
+            var arrY1 = [];
+            var indexX = 0;
+            var indexY = 0;
+            var per = [];
+            var pangkat;
+            $(".alert").hide();
+            $(".xx").hide();
+            $("#kiriM").attr("disabled", "");
+            $("#nTitik").keyup(function () {
+                if ($("#nTitik").val().trim() != '') {
+
+                    var itemX = "";
+                    var itemY = "";
+                    for (var i = 0; i < parseInt($("#nTitik").val()); i++) {
+
+                        itemX += ("<input type='text' id='x" + i + "' placeholder='x" + i + "' class='kecil' value='" + xS[i] + "'>");
+                        itemY += ("<input type='text' id='y" + i + "' placeholder='y" + i + "' class='kecil' value='" + yS[i] + "'>");
+                    }
+                    $("#deretX").html(itemX);
+                    $("#deretY").html(itemY);
+                    $(".xx").show();
+                    $("#kiriM").removeAttr("disabled");
+                } else {
+                    $(".xx").hide();
+                }
+
+            });
+            /*Akhir event change nTitik*/
+
+            $("#pangkat").keyup(function () {
+                if ($("#pangkat").val().trim() != '' && parseInt($("#pangkat").val()) >= 1 && parseInt($("#pangkat").val()) < parseInt($("#nTitik").val())) {
+                    $(".alert").hide();
+                    $("#kiriM").removeAttr("disabled");
+                } else {
+                    $(".alert").show();
+                    $("#kiriM").attr("disabled", "");
+                }
+
+            });
+            $("#kiriM").click(function () {
+                arrX = [];
+                arrY1 = [];
+
+                per = [];
+                nTitik = parseInt($("#nTitik").val());
+                for (var i = 0; i < nTitik; i++) {
+                    var x1 = parseFloat($("#x" + i).val());
+                    var y1 = parseFloat($("#y" + i).val());
+                    arrX.push(x1);
+                    arrY1.push(y1);
+                }
+                n = parseInt($("#pangkat").val());
+                for (var i = 0; i < (n + 1); i++) {
+
+                    per.push(arrY1[i]);
+                }
+                var arr = new Array(n + 1);
+                for (var i = 0; i < n + 1; i++) {
+                    arr[i] = new Array(n + 1);
+                }
+                var index = 0;
+                for (var i = 0; i < n + 1; i++) {
+                    for (var j = 0; j < n + 1; j++) {
+                        arr[j][i] = Math.pow(arrX[j], i);
+                    }
+                }
+                var hasil = "";
+                hasil += cetak(arr, "X", "step1");
+                var arrY = [];
+                for (var i = 0; i < per.length; i++) {
+                    arrY.push(arrY1[arrX.indexOf(arrX[i])]);
+                }
+                var arrINV = math.inv(arr);
+                var arrMUL = math.multiply(arrINV, arrY);
+                hasil += buatSebaris(arrY, "Y", "step1");
+                $("#pertama").html(hasil);
+                var hasil = "";
+                hasil += cetak(arrINV, "X-Inv", "step2");
+                hasil += buatSebaris(arrMUL, "X-Inv * Y", "step2");
+                $("#kedua").html(hasil);
+                var arrYint = [];
+                for (var i = 0; i < arrX.length; i++) {
+                    var hasil = 0;
+                    hasil += arrMUL[0];
+                    for (var j = 1; j <= n; j++) {
+                        hasil += arrMUL[j] * Math.pow(arrX[i], j);
+                    }
+                    arrYint.push(hasil);
+                }
+                var hasil = "";
+                hasil += buatSebaris(arrX, "X", "step3");
+                hasil += buatSebaris(arrY1, "Y", "step3");
+                hasil += buatSebaris(arrYint, "Y Int", "step3");
+                var error = [];
+                for (var i = 0; i < nTitik; i++) {
+                    error.push(Math.abs((arrYint[i] - arrY1[i]).toFixed(nTitik)));
+                }
+                var sigma = 0;
+                for (var i = 0; i < error.length; i++) {
+                    sigma += parseFloat(error[i]);
+                }
+                var rerata = parseFloat(sigma / nTitik);
+                var hasilAkhir = 0;
+                hasilAkhir += arrMUL[0];
+                for (var j = 1; j <= (n); j++) {
+                    hasilAkhir += arrMUL[j] * Math.pow(nn, j);
+                }
+                hasil += buatSebaris(error, "Error", "step3");
+                hasil += "<div class='col-md-2'><table class='table table table-bordered table-striped text-center'>";
+                hasil += "<tr><td class='biru'>Sigma</td><td>" + sigma.toFixed(5) + "</td></tr>";
+                hasil += "<tr><td class='biru'>Rerata Error</td><td>" + rerata.toFixed(5) + "</td></tr>";
+                hasil += "</table></div>"
+                $("#kedt").html(hasil);
+            });
+
+            function cetak(arrai, title, tujuan) {
+                var table = "";
+                table += "<div class='col-md-" + (n + 2) + "'><table class='table table table-bordered table-striped text-center'>";
+                table += "<tr><td class='biru' colspan='" + (arrai.length) + "'>" + title + "</td></tr>";
+                console.log(arrai);
+                for (var i = 0; i < n + 1; i++) {
+                    table += "<tr>";
+                    for (var j = 0; j < n + 1; j++) {
+                        if (title == "Y Int")
+                            table += "<td>" + arrai[i][j].toFixed(3) + "</td>";
+                        else
+                            table += "<td>" + arrai[i][j].toFixed(3) + "</td>";
+                    }
+                    table += "</tr>";
+                }
+                table += "</tr></table></div>";
+                //                $("#" + tujuan).append(table);
+                return table;
+            }
+
+            function buatSebaris(arrr, title, tujuan) {
+                var tabelB = "";
+                tabelB += "<div class='col-md-2'><table class='table table table-bordered table-striped text-center'>";
+                tabelB += "<tr><td class='biru' colspan='" + (arrr.length - 1) + "'>" + title + "</td></tr>";
+                for (var i = 0; i < arrr.length; i++) {
+                    tabelB += "<tr><td>" + arrr[i] + "</td></tr>";
+                }
+                tabelB += "</table></div>";
+                return tabelB;
+                //                $("#" + tujuan).append(tabelB);
+            }
+        });
+    </script>
+</body>
+
+</html>

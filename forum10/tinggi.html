@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Turunan Order Tinggi</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../css/gayaCramer.css">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/math.min.js"></script>
+    <style>
+        .input1 {
+            border-radius: none;
+        }
+
+        .big {
+            width: 100%;
+        }
+
+        .btn {
+            border-radius: 0;
+            background: #333;
+            padding: 10px 20px;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #ccc;
+            border-color: #ccc;
+            color: #333;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td.non {
+            border: 0;
+        }
+
+        .abu1 {
+            background: #2E3740;
+            color: white;
+        }
+
+        .kecil {
+            margin-right: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Step1-->
+    <div id="atas">
+        <span class="logo">Tugas Pak Ronsen</span>
+        <div class="kananBack">
+            <a href="../index.html"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+        </div>
+
+    </div>
+    <div class="container">
+        <section>
+            <div class="page-header">
+                <h2>Turunan <small>order tinggi</small></h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <p class="help-block"><b>NB:</b>Angka yang digunakan dibawah adalah contoh anda dapat mengganti sesuai keinginan</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Input Banyak Titik</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="nTitik" placeholder="Masukkan N Titik" required>
+
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Nilai x dicari Ynya</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="xN" placeholder="Masukkan Nilai x dicari Ynya" required>
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div class="xx">
+                            <div class="form-group">
+                                <label for="awal" class="col-lg-2 control-label">Nilai X</label>
+                                <div class="col-lg-6" id="deretX">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="awal" class="col-lg-2 control-label">Nilai Y</label>
+                                <div class="col-lg-6" id="deretY">
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Input Besar Pangkat</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="pangkat" placeholder="Masukkan Besar Pangkat" required>
+                            </div>
+
+
+                        </div>
+
+                        <div class="persamaan">
+                            <div class="form-group">
+                                <label for="awal" class="col-lg-2 control-label">Persamaan</label>
+
+                                <div class="col-lg-6" id="deretPer">
+
+                                </div>
+                                <div class="col-lg-4"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="awal" class="col-lg-2 control-label">Input Delta</label>
+
+                                <div class="col-lg-6">
+                                    <input type="text" class="big" id="delta" placeholder="Masukkan deltaX" required>
+                                </div>
+                                <div class="col-lg-4"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-xs-2 control-label">Pilih Salah Satu</label>
+                            <div class="col-xs-6">
+                                <select name="" id="pil" class="form-control flat">
+                                    <option value="tur1">Turunan pertama</option>
+                                    <option value="tur2">Turunan kedua</option>
+                                    <option value="tur3">Turunan ketiga</option>
+                                    <option value="tur4">Turunan keempat</option>
+
+                                </select>
+                            </div>
+                            <div class="col-xs-4"></div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <input id="kiriM" class="btn btn-default abu1" type="submit" value="Kirim">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </div>
+    <div id="hasil" class="container">
+        <div class="row" id="pertama">
+            <div id="arrX" class="col-md-10"></div>
+            <div id="arrY" class="col-md-2"></div>
+        </div>
+        <div class="row" id="kedua">
+            <div id="xINV" class="col-md-9"></div>
+            <div id="xINVx" class="col-md-3"></div>
+        </div>
+        <div class="row" id="ketiga">
+
+        </div>
+        <div class="row" id="akhir"></div>
+    </div>
+    <!--End Step1-->
+    <script>
+        $(document).ready(function () {
+            var n;
+            var nn;
+            var delta;
+            var arrX = [];
+            var arrXStatis = [2, 4, 6, 8, 10, 12, 14];
+            var arrYStatis = [10, 40, 57, 69, 78, 95, 130];
+            var nnStatis = 2.55;
+            var nStatis = 5;
+            var arrY1 = [];
+            var indexX = 0;
+            var indexY = 0;
+            var per = [];
+            var nTitik;
+            var pilih;
+            var nTitikStatis = 6;
+            var exact = [];
+            var arrMUL;
+            var nBesar, nKecil;
+
+            function cariBesar(arr, n) {
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i] > n) {
+                        return arr[i];
+                        break;
+                    }
+                }
+            }
+
+            function cariKecil(arr, n) {
+                for (var i = arr.length; i > -1; i--) {
+                    if (arr[i] < n) {
+                        return arr[i];
+                        break;
+                    }
+                }
+            }
+
+            function cetak(arrai, title, tujuan) {
+                var table = "";
+                table += "<div class='table-responsive col-md-12'><table class='table table table-bordered table-striped text-center'>";
+                table += "<tr><th colspan='" + (arrai.length) + "' >" + title + "</th></tr>";
+                for (var i = 0; i < n + 1; i++) {
+                    table += "<tr>";
+                    for (var j = 0; j < n + 1; j++) {
+                        if (title == "Y Int")
+                            table += "<td>" + arrai[i][j].toFixed(3) + "</td>";
+                        else
+                            table += "<td>" + arrai[i][j].toFixed(3) + "</td>";
+                    }
+                    table += "</tr>";
+                }
+                table += "</table></div>";
+                $("#" + tujuan).html(table);
+
+            }
+
+            function buatSebaris(arrr, title, tujuan) {
+                var tabelB = "";
+                tabelB += "<div class='table-responsive col-md-12'><table class='table table table-bordered table-striped text-center'>";
+                tabelB += "<tr><th colspan='" + (arrr.length - 1) + "' >" + title + "</th></tr>";
+                for (var i = 0; i < arrr.length; i++) {
+                    tabelB += "<tr><td>" + arrr[i] + "</td></tr>";
+                }
+                tabelB += "</table></div>";
+
+                $("#" + tujuan).html(tabelB);
+
+            }
+            $(".xx").hide();
+            $(".persamaan").hide();
+            $("#nTitik").change(function () {
+                if ($("#nTitik").val().trim() != '') {
+                    var itemX = "";
+                    var itemY = "";
+                    for (var i = 0; i < parseInt($("#nTitik").val()); i++) {
+                        itemX += ("<input type='text' id='x" + i + "' placeholder='x" + i + "' class='kecil' value='" + arrXStatis[i] + "'>");
+                        itemY += ("<input type='text' id='y" + i + "' placeholder='y" + i + "' class='kecil' value='" + arrYStatis[i] + "'>");
+                    }
+                    $("#deretX").html(itemX);
+                    $("#deretY").html(itemY);
+                    $(".xx").show();
+                } else {
+                    $(".xx").hide();
+                }
+
+            });
+            $("#pangkat").change(function () {
+                if ($("#pangkat").val().trim() != '' && parseInt($("#pangkat").val()) <= parseInt($("#nTitik").val()) - 1) {
+                    var perY = "";
+                    for (var i = 0; i < parseInt($("#pangkat").val()) + 1; i++) {
+
+                        perY += ("<input type='text' id='per" + i + "' placeholder='y" + i + "' class='kecil' value='" + arrYStatis[i] + "'>");
+                    }
+                    $("#deretPer").html(perY);
+                    $(".persamaan").show();
+                } else {
+                    $(".persamaan").hide();
+                }
+
+            });
+            $("#kiriM").click(function () {
+
+
+                var deltaStatis = 2;
+                nTitik = parseInt($("#nTitik").val());
+                var aaTur = new Array(nTitik);
+                var arrYas = new Array(nTitik);
+                for (var i = 0; i < nTitik; i++) {
+                    arrYas[i] = new Array(nTitik);
+                    aaTur[i] = new Array(nTitik - i);
+                }
+                nn = parseFloat($("#xN").val());
+                for (var i = 0; i < nTitik; i++) {
+                    var x1 = parseFloat($("#x" + i).val());
+                    var y1 = parseFloat($("#y" + i).val());
+                    // var per1=parseFloat($("#per"+i).val());
+                    arrX.push(x1);
+                    arrY1.push(y1);
+                    // per.push(per1);
+                }
+                nBesar = cariBesar(arrX, nn);
+                nKecil = cariKecil(arrX, nn);
+                n = parseInt($("#pangkat").val());
+                pilih = $("#pil option:selected").val();
+                //                alert(pilih);
+                delta = parseFloat($("#delta").val());
+                for (var i = 0; i < (n + 1); i++) {
+                    var per1 = parseFloat($("#per" + i).val());
+                    per.push(per1);
+                }
+                var arr = new Array(n + 1);
+                for (var i = 0; i < n + 1; i++) {
+                    arr[i] = new Array(n + 1);
+                }
+                var index = 0;
+                for (var i = 0; i < n + 1; i++) {
+                    for (var j = 0; j < n + 1; j++) {
+                        arr[j][i] = Math.pow(arrX[j], i);
+                    }
+                }
+
+
+                var arrY = [];
+                for (var i = 0; i < per.length; i++) {
+                    arrY.push(arrY1[arrX.indexOf(arrX[i])]);
+                }
+                var arrINV = math.inv(arr);
+                arrMUL = math.multiply(arrINV, arrY);
+                cetak(arr, "X", "arrX");
+                buatSebaris(arrY, "Y", "arrY");
+                cetak(arrINV, "X-Inv", "xINV");
+                buatSebaris(arrMUL, "X-Inv * Y", "xINVx");
+                var arrYint = [];
+                var error = [];
+                for (var i = 0; i < arrX.length; i++) {
+                    aaTur[0][i] = arrMUL[i];
+                    var hasil = 0;
+                    //                        hasil += arrMUL[0];
+                    for (var j = 0; j <= n; j++) {
+                        hasil += arrMUL[j] * Math.pow(arrX[i], j);
+                    }
+                    arrYint.push(hasil);
+                    error.push(parseFloat(Math.abs(arrY1[i] - arrYint[i])).toFixed(5));
+                }
+                var tableS = "<div class='table-responsive col-md-12'><table class='table table table-bordered table-striped text-center'>";
+                tableS += "<tr><th>X</th><th>Y</th><th>Y Int</th><th>Y - Y Int</th></tr>";
+                for (var i = 0; i < arrX.length; i++) {
+                    tableS += "<tr><td>" + arrX[i] + "</td><td>" + arrY[i] + "</td><td>" + arrYint[i] + "</td><td>" + error[i] + "</td></tr>";
+                }
+                tableS += "</table></div>";
+                $("#ketiga").html(tableS);
+                var eksak = 0;
+
+                function eks(tur) {
+                    eksak = 0;
+                    for (var i = tur; i <= n; i++) {
+                        eksak += arrMUL[i] * Math.pow(nn, i - tur) * (i - (tur - 1));
+                    }
+                }
+                var fa = 0
+                    , fb = 0
+                    , fc = 0
+                    , fd = 0
+                    , fe = 0
+                    , ff = 0
+                    , fg = 0;
+                var FDA2 = 0
+                    , BDA2 = 0
+                    , CDA2 = 0;
+                var eFDA = 0
+                    , eBDA = 0
+                    , eCDA = 0;
+
+                function cariFF(arr) {
+                    fa = 0, fb = 0, fc = 0, fd = 0, fe = 0, ff = 0, fg = 0;
+                    for (var i = 0; i < arr.length; i++) {
+                        fa += arr[i] * Math.pow(nn, i);
+                        fb += arr[i] * Math.pow(nn + delta, i);
+                        fd += arr[i] * Math.pow(nn + (delta * 2), i);
+                        fc += arr[i] * Math.pow(nn - delta, i);
+                        fe += arr[i] * Math.pow(nn - (delta * 2), i);
+                        ff += arr[i] * Math.pow(nn + (delta * 3), i);
+                        fg += arr[i] * Math.pow(nn + (delta * 4), i);
+                    }
+                }
+
+                function car(arr, arr1) {
+                    for (var i = 1; i < arr.length; i++) {
+                        arr1[i - 1] = (arr[i] * i);
+                    }
+                }
+
+                for (var i = 0; i < 4; i++) {
+                    car(aaTur[i], aaTur[i + 1]);
+
+                }
+
+                function fungsi(arr, x) {
+                    var t = 0.0;
+                    for (var i = 0; i < arr.length; i++) {
+                        t += (arr[i] * Math.pow(x, i));
+                    }
+                    return t;
+                }
+
+                function turun1FDA2(delta1) {
+                    var f0 = fungsi(arrMUL, nn);
+                    var f1 = fungsi(arrMUL, nn + delta1);
+                    return (f1 - f0) / delta1;
+                }
+
+                function turun1BDA2(delta1) {
+                    var f0 = fungsi(arrMUL, nn);
+                    var f1 = fungsi(arrMUL, nn - delta1);
+                    return (f0 - f1) / delta1;
+                }
+
+                function turun1CDA2(delta1) {
+                    var f0 = fungsi(arrMUL, nn + delta1);
+                    var f1 = fungsi(arrMUL, nn - delta1);
+                    return (f0 - f1) / (delta1 * 2);
+                }
+
+                function turun1FDA3(delta1) {
+                    var f0 = fungsi(arrMUL, nn);
+                    var f1 = fungsi(arrMUL, nn + delta1);
+                    var f2 = fungsi(arrMUL, nn + (delta1 * 2));
+                    return (-f2 + 4 * f1 - 3 * f0) / (2 * delta1);
+                }
+
+                function turun1CDA3(delta1) {
+                    var f2 = fungsi(arrMUL, nn + (delta1 * 2));
+                    var f1 = fungsi(arrMUL, nn + delta1);
+                    var f3 = fungsi(arrMUL, nn - delta1);
+                    var f4 = fungsi(arrMUL, nn - (delta1 * 2));
+                    return (-f2 + 8 * f1 - 8 * (f3) + f4) / (12 * delta1);
+                }
+
+                function turun2FDA3(delta1) {
+                    var f2 = fungsi(arrMUL, nn + (delta1 * 2));
+                    var f1 = fungsi(arrMUL, nn + delta1);
+                    var f0 = fungsi(arrMUL, nn);
+                    return (f2 - 2 * f1 + f0) / (Math.pow(delta1, 2));
+                }
+
+                function turun2FDA4(delta1) {
+                    var f3 = fungsi(arrMUL, nn + (delta1 * 3));
+                    var f2 = fungsi(arrMUL, nn + (delta1 * 2));
+                    var f1 = fungsi(arrMUL, nn + delta1);
+                    var f0 = fungsi(arrMUL, nn);
+                    return (-f3 + 4 * f2 - 5 * f1 + 2 * f0) / (Math.pow(delta1, 2));
+                }
+
+                function turun2CDA3(delta1) {
+                    var f1 = fungsi(arrMUL, nn + delta1);
+                    var f0 = fungsi(arrMUL, nn);
+                    var f3 = fungsi(arrMUL, nn - delta1);
+                    return (f1 - 2 * f0 + f3) / (Math.pow(delta1, 2));
+                }
+
+                function turun2CDA5(delta1) {
+                    var f2 = fungsi(arrMUL, nn + (delta1 * 2));
+                    var f1 = fungsi(arrMUL, nn + delta1);
+                    var f0 = fungsi(arrMUL, nn);
+                    var f3 = fungsi(arrMUL, nn - delta1);
+                    var f4 = fungsi(arrMUL, nn - (delta1 * 2));
+                    return (-f2 + 16 * f1 - 30 * f0 + 16 * f3 - f4) / (12 * Math.pow(delta1, 2));
+                }
+
+                function turun2BDA3(delta1) {
+                    var f0 = fungsi(arrMUL, nn);
+                    var f1 = fungsi(arrMUL, nn - delta1);
+                    var f2 = fungsi(arrMUL, nn - (delta1 * 2));
+                    return (f2 - 2 * f1 + f0) / (Math.pow(delta1, 2));
+                }
+
+                function turun2BDA4(delta1) {
+                    var f0 = fungsi(arrMUL, nn);
+                    var f1 = fungsi(arrMUL, nn - delta1);
+                    var f2 = fungsi(arrMUL, nn - (delta1 * 2));
+                    var f3 = fungsi(arrMUL, nn - (delta1 * 3));
+                    return (-f3 + 4 * f2 - 5 * f1 + 2 * f0) / (Math.pow(delta1, 2));
+                }
+
+                function turun3FDA4(delta1) {
+                    var f3 = fungsi(arrMUL, nn + (delta1 * 3));
+                    var f2 = fungsi(arrMUL, nn + (delta1 * 2));
+                    var f1 = fungsi(arrMUL, nn + delta1);
+                    var f0 = fungsi(arrMUL, nn);
+                    return (f3 - 3 * f2 + 3 * f1 - f0) / (Math.pow(delta1, 3));
+                }
+
+                function turun3CDA4(delta1) {
+                    var f2 = fungsi(arrMUL, nn + (delta1 * 2));
+                    var f1 = fungsi(arrMUL, nn + delta1);
+                    var f3 = fungsi(arrMUL, nn - delta1);
+                    var f4 = fungsi(arrMUL, nn - (delta1 * 2));
+                    return (f2 - 2 * f1 + 2 * f3 - f4) / (2 * Math.pow(delta1, 3));
+                }
+
+                function turun4FDA5(delta1) {
+                    var f4 = fungsi(arrMUL, nn + (delta1 * 4));
+                    var f3 = fungsi(arrMUL, nn + (delta1 * 3));
+                    var f2 = fungsi(arrMUL, nn + (delta1 * 2));
+                    var f1 = fungsi(arrMUL, nn + delta1);
+                    var f0 = fungsi(arrMUL, nn);
+                    return (f4 - 4 * f3 + 6 * f2 - 4 * f1 + f0) / (Math.pow(delta1, 4));
+                }
+
+                function turun4CDA5(delta1) {
+                    var f2 = fungsi(arrMUL, nn + (delta1 * 2));
+                    var f1 = fungsi(arrMUL, nn + delta1);
+                    var f0 = fungsi(arrMUL, nn);
+                    var f3 = fungsi(arrMUL, nn - delta1);
+                    var f4 = fungsi(arrMUL, nn - (delta1 * 2));
+                    return (f2 - 4 * f1 + 6 * f0 - 4 * f3 + f4) / (Math.pow(delta1, 4));
+                }
+                var deltatemp = delta;
+                if (pilih == "tur1") {
+                    pilih = 1;
+                    cariFF(aaTur[0]);
+                    eks(1);
+                    var simbol = "'";
+                    var tableS = "<div class='table-responsive col-md-12'><table class='table table table-bordered table-striped text-center'>";
+                    tableS += "<tr><th>Iterasi</th><th>Delta</th><th>F" + simbol.repeat(pilih) + "(x)eksak</th><th>FDA 2 Titik</th><th>BDA 2 Titik</th><th>CDA 2 Titik</th><th>FDA 3 Titik</th><th>CDA 5 Titik</th></tr>";
+                    var ii = 0;
+                    while (deltatemp > 1e-10) {
+                        FDA2 = turun1FDA2(delta);
+                        BDA2 = turun1BDA2(delta);
+                        CDA2 = turun1CDA2(delta);
+                        var FDA3 = turun1FDA3(delta);
+                        var CDA3 = turun1CDA3(delta);
+                        tableS += "<tr><td>" + ii + "</td><td>" + deltatemp + "</td><td>" + eksak + "</td>";
+                        tableS += "<td>" + (Math.abs(eksak - FDA2) >= 1e-2 ? FDA2 : "konvergen") + "</td>";
+
+                        tableS += "<td>" + (Math.abs(eksak - BDA2) >= 1e-2 ? BDA2 : "konvergen") + "</td>";
+                        tableS += "<td>" + (Math.abs(eksak - CDA2) >= 1e-2 ? CDA2 : "konvergen") + "</td>";
+                        tableS += "<td>" + (Math.abs(eksak - FDA3) >= 1e-2 ? FDA3 : "konvergen") + "</td>";
+                        tableS += "<td>" + (Math.abs(eksak - CDA3) >= 1e-2 ? CDA3 : "konvergen") + "</td>";
+                        deltatemp /= 2;
+                        delta = parseFloat(delta / 2);
+                        ii++;
+                    }
+                    tableS += "</table></div>";
+                    $("#akhir").html(tableS);
+                } else if (pilih == "tur2") {
+                    pilih = 2;
+                    cariFF(aaTur[1]);
+                    eks(2);
+                    var simbol = "'";
+                    var tableS = "<div class='table-responsive col-md-12'><table class='table table table-bordered table-striped text-center'>";
+                    tableS += "<tr ><th>Iterasi</th><th>Delta</th><th>F" + simbol.repeat(pilih) + "(x)eksak</th><th>FDA 3 Titik</th><th>BDA 3 Titik</th><th>CDA 3 Titik</th><th>FDA 4 Titik</th><th>BDA 4 Titik</th><th>CDA 5 Titik</th></tr>";
+                    var ii = 0;
+                    while (deltatemp > 1e-10) {
+                        var BDA3 = turun2BDA3(delta);
+                        var FDA3 = turun2FDA3(delta);
+                        var CDA3 = turun2CDA3(delta);
+                        var FDA4 = turun2FDA4(delta);
+                        var BDA4 = turun2BDA4(delta);
+                        var CDA5 = turun2CDA5(delta);
+                        tableS += "<tr><td>" + ii + "</td><td>" + deltatemp + "</td><td>" + eksak + "</td>";
+                        tableS += "<td>" + (Math.abs(eksak - FDA3) >= 1e-2 ? FDA3 : "konvergen") + "</td>";
+
+                        tableS += "<td>" + (Math.abs(eksak - BDA3) >= 1e-2 ? BDA3 : "konvergen") + "</td>";
+                        tableS += "<td>" + (Math.abs(eksak - CDA3) >= 1e-2 ? CDA3 : "konvergen") + "</td>";
+                        tableS += "<td>" + (Math.abs(eksak - FDA4) >= 1e-2 ? FDA4 : "konvergen") + "</td>";
+                        tableS += "<td>" + (Math.abs(eksak - BDA4) >= 1e-2 ? BDA4 : "konvergen") + "</td>";
+                        tableS += "<td>" + (Math.abs(eksak - CDA5) >= 1e-2 ? CDA5 : "konvergen") + "</td>";
+                        deltatemp /= 2;
+                        delta = parseFloat(delta / 2);
+                        ii++;
+                    }
+                    tableS += "</table></div>";
+                    $("#akhir").append(tableS);
+                } else if (pilih == "tur3") {
+                    pilih = 3;
+                    eks(pilih);
+                    var simbol = "'";
+                    var tableS = "<div class='table-responsive col-md-12'><table class='table table table-bordered table-striped text-center'>";
+                    tableS += "<tr><th>Iterasi</th><th>Delta</th><th>F" + simbol.repeat(pilih) + "(x)eksak</th><th>FDA 4 Titik</th><th>CDA 4 Titik</th></tr>";
+                    var ii = 0;
+                    while (deltatemp > 1e-10) {
+                        var FDA4 = turun3FDA4(delta);
+                        var CDA4 = turun3CDA4(delta);
+                        tableS += "<tr><td>" + ii + "</td><td>" + deltatemp + "</td><td>" + eksak + "</td>";
+                        tableS += "<td>" + (Math.abs(eksak - FDA4) >= 1e-2 ? FDA4 : "konvergen") + "</td>";
+                        tableS += "<td>" + (Math.abs(eksak - CDA4) >= 1e-2 ? CDA4 : "konvergen") + "</td>";
+                        deltatemp /= 2;
+                        delta = parseFloat(delta / 2);
+                        ii++;
+                    }
+                    tableS += "</table></div>";
+                    $("#hasil").append(tableS);
+                } else if (pilih == "tur4") {
+                    pilih = 4;
+                    eks(pilih);
+                    var simbol = "'";
+                    var tableS = "<div class='table-responsive col-md-12'><table class='table table table-bordered table-striped text-center'>";
+                    tableS += "<tr><th>Iterasi</th><th>Delta</th><th>F" + simbol.repeat(pilih) + "(x)eksak</th><th>FDA 5 Titik</th><th>CDA 5 Titik</th></tr>";
+                    var ii = 0;
+                    while (deltatemp > 1e-10) {
+                        var FDA5 = turun4FDA5(delta);
+                        var CDA5 = turun4CDA5(delta);
+                        tableS += "<tr><td>" + ii + "</td><td>" + deltatemp + "</td><td>" + eksak + "</td>";
+                        tableS += "<td>" + (Math.abs(eksak - FDA5) >= 1e-1 ? FDA5 : "konvergen") + "</td>";
+                        tableS += "<td>" + (Math.abs(eksak - CDA5) >= 1e-1 ? CDA5 : "konvergen") + "</td>";
+                        deltatemp /= 2;
+                        delta = parseFloat(delta / 2);
+                        ii++;
+                    }
+                    tableS += "</table></div>";
+                    $("#hasil").append(tableS);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Euler</title>
+        <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../css/gayaCramer.css">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/math.min.js"></script>
+
+
+    <style>
+        .input1 {
+            border-radius: none;
+        }
+        
+        .big {
+            width: 100%;
+        }
+        
+        .btn {
+            border-radius: 0;
+            background: #333;
+            padding: 10px 20px;
+            color: white;
+        }
+        
+        .btn:hover {
+            background: #ccc;
+            border-color: #ccc;
+            color: #333;
+        }
+        
+        th {
+            text-align: center;
+        }
+        
+        td.non {
+            border: 0;
+        }
+        
+        .abu1 {
+            background: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Step1-->
+    <div id="atas">
+        <span class="logo">Tugas Pak Ronsen</span>
+        <div class="kananBack">
+            <a href="../index.html"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+        </div>
+
+    </div>
+    <div class="container">
+        <section>
+            <div class="page-header">
+                <h2>Euler <small>3</small></h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Nilai eksak</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="eksak" placeholder="Masukkan Nilai Eksak" required>
+
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Nilai x0</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="x0" placeholder="Masukkan Nilai x0" required>
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">NIlai y(<span class="yn"></span>)</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="y0" placeholder="Masukkan Nilai y0" required>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">x untuk y(x) </label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="yn" placeholder="Masukkan Nilai y0" required>
+                            </div>
+
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Banyak Segmen</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="nSegmen" placeholder="Masukkan Banyak Segmen" required>
+
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="awal" class="col-lg-2 control-label">Nilai H</label>
+
+                            <div class="col-lg-6">
+                                <input type="text" class="big" id="hIsi" placeholder="Terisi jika yang lain terisi" disabled>
+                                <p class="help-block">H akan otomatis terisi jika yang lain sudah terisi</p>
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <input id="kiriM" class="btn btn-default" type="submit" value="Kirim">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <blockquote>
+
+                        <p>
+                            Fungsi :
+                            <h3>y' = -1.996*4^(-7)*(y0^2-10^3)</h3>
+                        </p>
+
+                    </blockquote>
+                </div>
+
+
+            </div>
+        </section>
+    </div>
+    <div id="hasil" class="container"></div>
+    <!--End Step1-->
+    <script>
+        $(document).ready(function () {
+            var eksak = 0
+                , x0 = 0
+                , y0 = 0
+                , yx = 0
+                , segmen = 0
+                , h = 0
+                , error = 0;
+            //            $("#eksak, #x0,#y0,#yn,#nSegmen").bind('keyup mouseup cut paste', function () {
+            //                setTimeout(function () {
+            //                    ($('#txtbox1').val() && $('#txtbox3').val()) ? $('#btnSubmit').prop('disabled', false): $('#btnSubmit').prop('disabled', true);
+            //                }, 100);
+            //            });
+
+            $("#x0").bind('keyup', function () {
+                $(".yn").html($("#x0").val());
+
+            });
+            $("#nSegmen").bind('keyup', function () {
+                h = 0;
+                var sisa = parseFloat($("#yn").val()) - parseFloat($("#x0").val());
+                h = sisa / parseInt($("#nSegmen").val());
+                $("#hIsi").val(h);
+
+            });
+            $("#kiriM").click(function () {
+                var tabelS = "";
+                eksak = 0, x0 = 0, y0 = 0, yx = 0, segmen = 0, h, error = 0;
+                eksak = parseFloat($("#eksak").val());
+                x0 = parseFloat($("#x0").val());
+                y0 = parseFloat($("#y0").val());
+                yx = parseFloat($("#yn").val());
+                tabelS = "<div class='table-responsive'><table class='table table table-bordered table-striped text-center'>";
+                tabelS += "<caption></caption><thead><tr><th >Iterasi</th><th>X</th><th>Y</th></tr></thead>";
+                segmen = parseInt($("#nSegmen").val());
+                for (var i = 0; i <= segmen; i++) {
+                    tabelS += "<tr><td>" + i + "</td><td>" + x0 + "</td><td>" + y0 + "</td></tr>";
+                    if (i == segmen)
+                        error = y0;
+                    y0 = y0 - (1.996 * Math.pow(4, -7) * (Math.pow(y0, 2) - Math.pow(10, 3))) * h;
+                    x0 += h;
+                }
+                tabelS += "<tr class='abu1'><td>Error = </td><td colspan='2'>" + math.abs(eksak - error) + "</td></tr>";
+                tabelS += "</table>";
+                $("#hasil").html(tabelS);
+                //        alert(math.abs(eksak-error));
+            })
+        });
+    </script>
+</body>
+
+</html>
